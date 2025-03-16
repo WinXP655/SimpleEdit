@@ -1,0 +1,72 @@
+[ID]
+Lang=de
+DisplayName=Deutsch
+Author=Параметры
+Version=1.0
+
+[Application]
+Title=SimpleEdit
+NewDocument=Neu
+StatusBarTemplate={path}{modified} ({size} Bytes)
+AboutDescription=(c) Параметры 2025\n\nEin einfacher Texteditor, erstellt mit Python. Inspiriert vom Windows-Notepad aus Windows 95
+Close=Schließen
+
+[Menu.File]
+Label=Datei
+New=Neu
+Open=Öffnen...
+Save=Speichern
+SaveAs=Speichern unter...
+Exit=Beenden
+
+[Menu.Edit]
+Label=Bearbeiten
+Undo=Rückgängig
+Redo=Wiederholen
+Cut=Ausschneiden
+Copy=Kopieren
+Paste=Einfügen
+Delete=Löschen
+SelectAll=Alles auswählen
+InsertTime=Datum und Uhrzeit einfügen
+
+[Menu.View]
+Label=Ansicht
+ShowToolbar=Symbolleiste anzeigen
+ShowStatusbar=Statusleiste anzeigen
+WordWrap=Zeilenumbruch
+
+[Menu.Search]
+Label=Suchen
+Find=Suchen
+FindNext=Nächstes suchen
+Replace=Ersetzen
+
+[Menu.Help]
+Label=Hilfe
+Help=Hilfe
+About=Über
+
+[Dialog]
+UnsavedTitle=Ungespeicherte Änderungen
+UnsavedMessage=Sie haben ungespeicherte Änderungen. Möchten Sie sie speichern?
+ReplaceTitle=Text ersetzen
+FindLabel=Suchen nach:
+ReplaceLabel=Ersetzen durch:
+ReplaceButton=Ersetzen
+
+[Error]
+General=Fehler
+FileOpenError=Datei konnte nicht geöffnet werden:\n{error}
+FileSaveError=Datei konnte nicht gespeichert werden:\n{error}
+HelpNotFound=Hilfedatei nicht gefunden. Stellen Sie sicher, dass die Datei 'help.rtf' existiert.
+SearchEnd=Ende erreicht. Von vorne beginnen?
+SearchRestart=Ende des Dokuments erreicht. Von vorne beginnen?
+
+[ContextMenu]
+Undo=Rückgängig
+Cut=Ausschneiden
+Copy=Kopieren
+Paste=Einfügen
+Delete=Löschen
+SelectAll=Alles auswählen

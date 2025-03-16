@@ -1,0 +1,12 @@
+To-Do List:
+------------
+
+1. [ ] Prepare presentation for meeting
+2. [ ] Do a report about work
+3. [x] Send a email to client
+4. [ ] Check email
+5. [ ] Do a new tasks list
+
+Notes:
+- Item 3 done.
+- Item 4 needs imporant attention.

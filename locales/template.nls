@@ -1,0 +1,100 @@
+; This is a template file for your custom translations.
+; Follow the instructions below to create a new localization file.
+;
+; 1. Save this file with the name corresponding to the language code.
+;    Example: For French, save as "fr.nls".
+;
+; 2. Replace all English text with translations in your language.
+;    Keep the keys (e.g., "Title", "NewDocument") unchanged.
+;
+; 3. Fill in the [ID] section:
+;    - Lang: Use the language code (e.g., "fr" for French).
+;    - Author: Enter your name or the name of the translator.
+;    - Version: Start with "1.0" and increment with updates.
+;
+; 4. For dynamic placeholders (e.g., {path}, {size}, {error}):
+;    - Keep the placeholders unchanged in the translation.
+;    - Example: "File path: {path}" → "Chemin du fichier: {path}".
+;
+; 5. For special characters (e.g., \n for newline):
+;    - Keep them unchanged in the translation.
+;    - Example: "Line 1\nLine 2" → "Ligne 1\nLigne 2".
+;
+; 6. Test your translation by loading it in SimpleEdit.
+;    Report any issues or missing strings to the maintainers.
+;
+; Thank you for contributing to SimpleEdit!
+; Your work helps make the application accessible to more users worldwide.
+
+[ID]
+; Идентификатор какой это язык
+Lang=en
+Author=Enter your name here
+Version=Enter version here
+
+[Application]
+Title=SimpleEdit
+NewDocument=New
+StatusBarTemplate={path}{modified} ({size} bytes)
+AboutDescription=(c) Параметры 2025\n\nA simple text editor made with Python. Inspired by a Windows Notepad from Windows 95
+Close=Close
+
+[Menu.File]
+Label=File
+New=New
+Open=Open...
+Save=Save
+SaveAs=Save As...
+Exit=Exit
+
+[Menu.Edit]
+Label=Edit
+Undo=Undo
+Redo=Redo
+Cut=Cut
+Copy=Copy
+Paste=Paste
+Delete=Delete
+SelectAll=Select All
+InsertTime=Insert Time and Date
+
+[Menu.View]
+Label=View
+ShowToolbar=Show Toolbar
+ShowStatusbar=Show Status Bar
+WordWrap=Word Wrap
+
+[Menu.Search]
+Label=Search
+Find=Find
+FindNext=Find Next
+Replace=Replace
+
+[Menu.Help]
+Label=Help
+Help=Help
+About=About
+
+[Dialog]
+UnsavedTitle=Unsaved changes
+UnsavedMessage=You have unsaved changes. Do you want to save them?
+ReplaceTitle=Replace Text
+FindLabel=Find:
+ReplaceLabel=Replace with:
+ReplaceButton=Replace
+
+[Error]
+General=Error
+FileOpenError=Could not open file:\n{error}
+FileSaveError=Could not save file:\n{error}
+HelpNotFound=Help file not found. Please make sure 'help.rtf' exists
+SearchEnd=Reached end. Continue from beginning?
+SearchRestart=Reached the end of the document. Continue from the beginning?
+
+[ContextMenu]
+Undo=Undo
+Cut=Cut
+Copy=Copy
+Paste=Paste
+Delete=Delete
+SelectAll=Select All
