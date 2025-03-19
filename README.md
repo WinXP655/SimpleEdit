@@ -21,16 +21,16 @@ SimpleEdit is a simple text editor written in Python using the Tkinter library.
 
 ## Screenshots
 Main window
-![image](https://github.com/user-attachments/assets/c699f288-e3cb-490d-919c-f2b17937d166)
+![image](https://github.com/user-attachments/assets/5d725a37-a4bb-4279-9836-5efbcc35909d)
 
 Search window
-![image](https://github.com/user-attachments/assets/ede5cba3-53ff-47b6-8f35-15cc344ad5ee)
+![image](https://github.com/user-attachments/assets/edac72b9-ab0f-4f15-96fe-dc49969fe8ed)
 
 Replace window
-![image](https://github.com/user-attachments/assets/9e571f52-418f-4a7a-aee0-3efa1bfeb0f0)
+![image](https://github.com/user-attachments/assets/3d09e328-c921-4dc1-aa3a-a779c96e7e7f)
 
 About window
-![image](https://github.com/user-attachments/assets/50e71ce7-b8b3-4b64-a4ce-0c84cf968b41)
+![image](https://github.com/user-attachments/assets/4db73b67-dd82-47dc-9a9b-5a9bc10fd08d)
 
 Hidden About window
-![image](https://github.com/user-attachments/assets/3d1b0b0c-5819-4040-b13f-ba57c822cb41)
+![image](https://github.com/user-attachments/assets/0d4553a2-b6c2-46a6-9b6e-4cd83d7ab669)
