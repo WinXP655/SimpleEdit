@@ -34,3 +34,7 @@ About window
 
 Hidden About window
 ![image](https://github.com/user-attachments/assets/0d4553a2-b6c2-46a6-9b6e-4cd83d7ab669)
+
+## Used 3rd party stuff
+- Poppler (PDF tools)
+https://github.com/oschwartz10612/poppler-windows
