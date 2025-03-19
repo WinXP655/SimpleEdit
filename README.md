@@ -9,7 +9,7 @@ SimpleEdit is a simple text editor written in Python using the Tkinter library.
 - Alternate About window when pressing Ctrl+Alt+H.
 
 ## Installation
-1. Make sure you have Python 3.x installed.
+1. Make sure you have latest Python installed.
 2. Clone the repository:
 `git clone https://github.com/WinXP655/SimpleEdit.git`
 3. Install dependencies:
