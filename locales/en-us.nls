@@ -1,36 +1,9 @@
-; This is a template file for your custom translations.
-; Follow the instructions below to create a new localization file.
-;
-; 1. Save this file with the name corresponding to the language code.
-;    Example: For French, save as "fr.nls".
-;
-; 2. Replace all English text with translations in your language.
-;    Keep the keys (e.g., "Title", "NewDocument") unchanged.
-;
-; 3. Fill in the [ID] section:
-;    - Lang: Use the language code (e.g., "fr" for French).
-;    - Author: Enter your name or the name of the translator.
-;    - Version: Start with "1.0" and increment with updates.
-;
-; 4. For dynamic placeholders (e.g., {path}, {size}, {error}):
-;    - Keep the placeholders unchanged in the translation.
-;    - Example: "File path: {path}" → "Chemin du fichier: {path}".
-;
-; 5. For special characters (e.g., \n for newline):
-;    - Keep them unchanged in the translation.
-;    - Example: "Line 1\nLine 2" → "Ligne 1\nLigne 2".
-;
-; 6. Test your translation by loading it in SimpleEdit.
-;    Report any issues or missing strings to the maintainers.
-;
-; Thank you for contributing to SimpleEdit!
-; Your work helps make the application accessible to more users worldwide.
-
 [ID]
 ; Идентификатор какой это язык
 Lang=en-US
-Author=Enter your name here
-Version=Enter version here
+DisplayName=English (United States)
+Author=Параметры
+Version=1.0
 
 [Application]
 Title=SimpleEdit

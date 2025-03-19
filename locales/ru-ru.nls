@@ -1,0 +1,73 @@
+[ID]
+; Идентификатор какой это язык
+Lang=ru-RU
+DisplayName=Русский
+Author=Параметры
+Version=1.0
+
+[Application]
+Title=SimpleEdit
+NewDocument=Новый
+StatusBarTemplate={path}{modified} ({size} байт)
+AboutDescription=(c) Параметры 2025\n\nПростой текстовый редактор, написанный на Python. Вдохновлен блокнотом Windows из Windows 95
+Close=Закрыть
+
+[Menu.File]
+Label=Файл
+New=Создать
+Open=Открыть
+Save=Сохранить
+SaveAs=Сохранить как...
+Exit=Выход
+
+[Menu.Edit]
+Label=Правка
+Undo=Отменить
+Redo=Вернуть
+Cut=Вырезать
+Copy=Копировать
+Paste=Вставить
+Delete=Удалить
+SelectAll=Выделить всё
+InsertTime=Вставить дату и время
+
+[Menu.View]
+Label=Вид
+ShowToolbar=Показать панель инструментов
+ShowStatusbar=Показать строку состояния
+WordWrap=Перенос слов
+
+[Menu.Search]
+Label=Поиск
+Find=Найти
+FindNext=Найти далее
+Replace=Заменить
+
+[Menu.Help]
+Label=Справка
+Help=Справка
+About=О программе
+
+[Dialog]
+UnsavedTitle=Несохраненные изменения
+UnsavedMessage=У вас есть несохраненные изменения. Вы хотите их сохранить?
+ReplaceTitle=Заменить текст
+FindLabel=Найти:
+ReplaceLabel=Заменить на:
+ReplaceButton=Заменить
+
+[Error]
+General=Ошибка
+FileOpenError=Не удалось открыть файл:\n{error}
+FileSaveError=Не удалось сохранить файл:\n{error}
+HelpNotFound=Файл справки не найден. Проверьте, есть ли файл 'help.rtf'
+SearchEnd=Достигнут конец. Начать сначала?
+SearchRestart=Достигнут конец документа. Начать сначала?
+
+[ContextMenu]
+Undo=Отменить
+Cut=Вырезать
+Copy=Копировать
+Paste=Вставить
+Delete=Удалить
+SelectAll=Выделить всё ; Исправлено: "Выбрать все" → "Выделить всё"

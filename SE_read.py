@@ -1,13 +1,18 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, simpledialog
+from datetime import datetime
 import os
 import tkinter.font as tkFont
 from tkinter import PhotoImage
+import locale
+import configparser
+import tkinter.font as tkFont
+import ctypes
 
 class NotepadApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("SimpleEdit (Read-only)")
+        self.root.title("SimpleView")
         self.file_path = None
         self.word_wrap = False  # Переменная для отслеживания состояния Word Wrap
 
@@ -18,7 +23,7 @@ class NotepadApp:
 
         # Устанавливаем шрифт Microsoft Sans Serif
         self.default_font = tkFont.nametofont("TkDefaultFont")
-        self.default_font.config(family="Microsoft Sans Serif", size=8)
+        self.default_font.config(family="Microsoft Sans Serif", size=9)
 
         # Панель инструментов
         self.toolbar_frame = tk.Frame(self.root)
@@ -26,12 +31,14 @@ class NotepadApp:
 
         self.create_toolbar()  # Создаем панель инструментов
 
-        # Текстовое поле (только для чтения)
+        # Создаем текстовое поле с полосой прокрутки
         self.text_area_frame = tk.Frame(self.root)
         self.text_area_frame.pack(expand=True, fill='both')
-        self.text_area = tk.Text(self.text_area_frame, wrap=tk.NONE, state=tk.DISABLED)
-        self.scrollbar = tk.Scrollbar(self.text_area_frame, command=self.text_area.yview)
+
+        self.text_area = tk.Text(self.text_area_frame, wrap=tk.NONE, undo=True)  # Шрифт для текстового поля
+        self.scrollbar = tk.Scrollbar(self.text_area_frame, command=self.text_area.yview)  # Вертикальная полоса прокрутки
         self.text_area.config(yscrollcommand=self.scrollbar.set)
+
         self.text_area.pack(expand=True, fill='both', side=tk.LEFT)
         self.scrollbar.pack(side=tk.RIGHT, fill='y')
 
@@ -57,16 +64,16 @@ class NotepadApp:
         # Меню "File"
         self.file_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="File", menu=self.file_menu)
-        self.add_menu_command(self.file_menu, "Open...", "open", self.open_file)
+        self.add_menu_command(self.file_menu, "Open...", "open", self.open_file, accelerator="Ctrl+O")
         self.file_menu.add_separator()
-        self.add_menu_command(self.file_menu, "Exit", "exit", self.exit_app)
+        self.add_menu_command(self.file_menu, "Exit", "exit", self.exit_app, accelerator="Alt+F4")
 
         # Меню "Edit"
         self.edit_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="Edit", menu=self.edit_menu)
-        self.add_menu_command(self.edit_menu, "Copy", "copy", self.copy)
+        self.add_menu_command(self.edit_menu, "Copy", "copy", self.copy, accelerator="Ctrl+C")
         self.edit_menu.add_separator()
-        self.add_menu_command(self.edit_menu, "Select All", "select_all", self.select_all)
+        self.add_menu_command(self.edit_menu, "Select All", "select_all", self.select_all, accelerator="Ctrl+A")
 
         # Меню "View"
         self.view_menu = tk.Menu(self.menu, tearoff=0)
@@ -76,14 +83,16 @@ class NotepadApp:
             image=self.icons["toolbar"],
             compound=tk.LEFT if self.icons["toolbar"] else None,
             variable=self.show_toolbar,
-            command=self.toggle_toolbar
+            command=self.toggle_toolbar,
+            accelerator="Alt+T"
         )
         self.view_menu.add_checkbutton(
             label="Show Status Bar",
             image=self.icons["statusbar"],
             compound=tk.LEFT if self.icons["statusbar"] else None,
             variable=self.show_statusbar,
-            command=self.toggle_statusbar
+            command=self.toggle_statusbar,
+            accelerator="Alt+S"
         )
         self.view_menu.add_separator()
         self.view_menu.add_checkbutton(
@@ -91,20 +100,21 @@ class NotepadApp:
             image=self.icons["word_wrap"],
             compound=tk.LEFT if self.icons["word_wrap"] else None,
             variable=self.word_wrap,
-            command=self.toggle_word_wrap
+            command=self.toggle_word_wrap,
+            accelerator="Alt+W"
         )
 
         # Меню "Search"
         self.search_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="Search", menu=self.search_menu)
-        self.add_menu_command(self.search_menu, "Find", "find", self.find)
-        self.add_menu_command(self.search_menu, "Find Next", "find_next", self.find_next)
+        self.add_menu_command(self.search_menu, "Find", "find", self.find, accelerator="Ctrl+F")
+        self.add_menu_command(self.search_menu, "Find Next", "find_next", self.find_next, accelerator="F3")
 
         # Меню "Help"
         self.help_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="Help", menu=self.help_menu)
-        self.add_menu_command(self.help_menu, "Help", "help", self.open_help)
-        self.add_menu_command(self.help_menu, "About", "about", self.show_about)
+        self.add_menu_command(self.help_menu, "Help", "help", self.open_help, accelerator="F1")
+        self.add_menu_command(self.help_menu, "About", "about", self.show_about_wrapper, accelerator="Ctrl+F1")
 
         """Создает контекстное меню."""
         self.context_menu = tk.Menu(self.root, tearoff=0)
@@ -114,38 +124,85 @@ class NotepadApp:
         self.context_menu.add_separator()
         self.add_menu_command(self.context_menu, "Select All", "select_all", self.select_all)
 
-        # Контекстное меню
-        self.context_menu = tk.Menu(self.root, tearoff=0)
-        self.context_menu.add_command(label="Copy", image=self.icons["copy"], compound=tk.LEFT, command=self.copy)
-        self.context_menu.add_separator()
-        self.context_menu.add_command(label="Select All", image=self.icons["select_all"], compound=tk.LEFT, command=self.select_all)
+        self.bind_shortcuts()
 
         # Привязываем контекстное меню к текстовому полю
         self.text_area.bind("<Button-3>", self.show_context_menu)  # Правая кнопка мыши
-        self.bind_shortcuts()
+
+    def load_localization(self):
+        """Загружает локализацию на основе выбранного языка."""
+        system_lang = locale.getdefaultlocale()[0]  # Определяем системный язык (например, 'ru_RU')
+        lang_code = self.get_lang_code_from_settings()  # Загружаем язык из настроек (если есть)
+        lang_code = lang_code or system_lang  # Используем системный язык по умолчанию
+
+        # Если язык не указан, используем английский
+        if not lang_code:
+            return self.get_default_localization()
+
+        # Пытаемся загрузить пользовательский файл локализации
+        if lang_code == "custom":
+            return self.load_custom_localization()
+
+        # Загружаем локализацию из файла
+        locale_file = f"locales/{lang_code}.nls"
+        if os.path.exists(locale_file):
+            return self.parse_localization_file(locale_file)
+        else:
+            # Если файл не найден, используем встроенный английский
+            return self.get_default_localization()
+
+    def get_default_localization(self):
+        """Возвращает встроенные английские строки."""
+        return {
+            "File": "File",
+            "New": "New",
+            "Open": "Open...",
+            "Save": "Save",
+            "Exit": "Exit",
+            "Edit": "Edit",
+            "Undo": "Undo",
+            "Redo": "Redo",
+            "Cut": "Cut",
+            "Copy": "Copy",
+            "Paste": "Paste",
+            "Help": "Help",
+            "About": "About",
+            "ErrorLoadingFile": "Error loading file",
+            "NotFoundError": "Text not found",
+            "ErrorLoadingIcon": "Error loading Icon",
+            "Unsaved:": "Unsaved changes",
+            "UnsavedConfirm": "You have unsaved changes. Do you want to save them?"
+        }
+
+    def parse_localization_file(self, file_path):
+        """Читает файл локализации и возвращает словарь строк."""
+        config = configparser.ConfigParser()
+        config.read(file_path, encoding="utf-8")
+        return dict(config.items("Strings"))
+
+    def load_custom_localization(self):
+        """Загружает пользовательский файл локализации через диалог."""
+        file_path = filedialog.askopenfilename(
+            defaultextension=".nls",
+            filetypes=[("Localization Files", "*.nls")]
+        )
+        if file_path:
+            return self.parse_localization_file(file_path)
+        else:
+            return self.get_default_localization()
 
     def load_icons(self):
         """Загружает все иконки из файлов."""
         icons = {
-            "new": "icons/new.png",
             "open": "icons/open.png",
-            "save": "icons/save.png",
-            "save_as": "icons/save_as.png",
             "exit": "icons/exit.png",
-            "undo": "icons/undo.png",
-            "redo": "icons/redo.png",
-            "cut": "icons/cut.png",
             "copy": "icons/copy.png",
-            "paste": "icons/paste.png",
             "help": "icons/help.png",
-            "delete": "icons/delete.png",
             "find": "icons/find.png",
             "find_next": "icons/find_next.png",
-            "replace": "icons/replace.png",
             "about": "icons/about.png",
             "word_wrap": "icons/word_wrap.png",
             "select_all": "icons/select_all.png",
-            "date_time": "icons/date_time.png",
             "toolbar": "icons/toolbar.png",
             "statusbar": "icons/statusbar.png",
             "print": "icons/print.png"
@@ -156,16 +213,18 @@ class NotepadApp:
             loaded_icons[name] = self.load_icon(path)  # Используем метод load_icon
         return loaded_icons
 
-    def add_menu_command(self, menu, label, icon_name, command):
+    def add_menu_command(self, menu, label, icon_name, command, **kwargs):
         """
         Добавляет команду в меню с проверкой наличия иконки.
+        Поддерживает дополнительные параметры, такие как accelerator.
         """
-        icon = self.icons.get(icon_name)
+        icon = self.icons.get(icon_name)  # Проверяем наличие иконки
         menu.add_command(
             label=label,
             image=icon,
             compound=tk.LEFT if icon else None,  # Добавляем иконку только если она загружена
-            command=command
+            command=command,
+            **kwargs  # Передаем дополнительные параметры (например, accelerator)
         )
 
     def load_icon(self, icon_path):
@@ -192,7 +251,6 @@ class NotepadApp:
             "about": "icons/about.png",
             "exit": "icons/exit.png",
             "help": "icons/help.png",
-            "delete": "icons/delete.png",
             "find": "icons/find.png",
             "find_next": "icons/find_next.png",
             "word_wrap": "icons/word_wrap.png",
@@ -258,37 +316,53 @@ class NotepadApp:
 
     def bind_shortcuts(self):
         """Привязывает сочетания клавиш к командам."""
+        # File menu
         self.root.bind("<Control-o>", lambda event: self.open_file())
-        self.root.bind("<Control-f>", lambda event: self.find())
-        self.root.bind("<F3>", lambda event: self.find_next())
-        self.root.bind("<Control-a>", lambda event: self.select_all())
-        self.root.bind("<Control-c>", lambda event: self.copy())
         self.root.bind("<Alt-F4>", lambda event: self.exit_app())
 
+        # Edit menu
+        self.root.bind("<Control-c>", lambda event: self.copy())
+        self.root.bind("<Control-a>", lambda event: self.select_all())
+
+        # View menu
+        self.root.bind("<Alt-t>", lambda event: self.toggle_toolbar())
+        self.root.bind("<Alt-s>", lambda event: self.toggle_statusbar())
+        self.root.bind("<Alt-w>", lambda event: self.toggle_word_wrap())
+
+        # Search menu
+        self.root.bind("<Control-f>", lambda event: self.find())
+        self.root.bind("<F3>", lambda event: self.find_next())
+
+        # Help menu
+        self.root.bind("<F1>", lambda event: self.open_help())
+        self.root.bind("<Control-F1>", lambda event: self.show_about_wrapper())
+
+        # Alternative About window
+        self.root.bind("<Control-Alt-h>", lambda event: self.show_alternative_about())
+
     def open_file(self):
-        file_path = filedialog.askopenfilename(
-            defaultextension=".txt",
-            filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")]
-        )
+        if not self.check_unsaved_changes():
+            return
+        file_path = filedialog.askopenfilename(defaultextension=".txt", filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")])
         if file_path:
             self.file_path = file_path
             try:
                 with open(file_path, 'r', encoding='utf-8') as file:
                     content = file.read()
-                    # Временно разблокируем поле для изменения содержимого
-                    self.text_area.config(state=tk.NORMAL)
+                    self.text_area.config(state=tk.NORMAL)  # Разблокируем поле
                     self.text_area.delete(1.0, tk.END)
                     self.text_area.insert(tk.END, content)
-                    self.text_area.config(state=tk.DISABLED)  # Блокируем снова
-                    self.update_status_bar()
+                    self.text_area.config(state=tk.DISABLED)
+                self.update_status_bar()
             except Exception as e:
                 messagebox.showerror("Error", f"Could not open file:\n{e}")
 
     def update_status_bar(self):
-        status_text = "New"
         if self.file_path:
             file_size = os.path.getsize(self.file_path)
             status_text = f"{self.file_path} ({file_size} bytes)"
+        else:
+            status_text = "New"
         self.status_bar.config(text=status_text)
 
     def exit_app(self):
@@ -353,26 +427,6 @@ class NotepadApp:
                     self.text_area.mark_set(tk.INSERT, "1.0")  # Возвращаем курсор в начало
                     self.find_next()  # Рекурсивно вызываем поиск снова
 
-        # Получаем текущую позицию курсора
-        current_pos = self.text_area.index(tk.INSERT)
-        # Ищем следующее вхождение текста после текущей позиции
-        index = self.text_area.search(search_term, current_pos, tk.END)
-
-        if index:
-            # Если найдено, выделяем текст
-            end_index = f"{index}+{len(search_term)}c"
-            self.text_area.tag_add("found", index, end_index)
-            self.text_area.tag_config("found", background="yellow")
-            # Перемещаем курсор к найденному тексту
-            self.text_area.mark_set(tk.INSERT, end_index)
-            self.text_area.see(index)  # Прокручиваем текстовое поле, чтобы показать найденное
-        else:
-            # Если ничего не найдено, начинаем поиск сначала
-            restart_search = messagebox.askyesno("Search", "Reached the end of the document. Continue from the beginning?")
-            if restart_search:
-                self.text_area.mark_set(tk.INSERT, "1.0")  # Возвращаем курсор в начало
-                self.find_next()  # Рекурсивно вызываем поиск снова
-
     def select_all(self):
         self.text_area.tag_add("sel", "1.0", "end")
 
@@ -407,12 +461,58 @@ class NotepadApp:
             except Exception as e:
                 messagebox.showerror("Error", f"Could not open help file:\n{e}")
         else:
-            messagebox.showerror("Error", "Help file not found. Please make sure 'help.rtf' exists.")
+            messagebox.showerror(self.loc("Error"), self.loc("HelpFileNotFound"))
+
+    def show_about_wrapper(self, event=None):
+        """Обертка для вызова правильного метода 'About'."""
+        if event and event.state & 0x4:  # Проверка зажатия Ctrl
+            self.show_alternative_about()
+        else:
+            self.show_about()
+
+    def show_alternative_about(self, event=None):
+        """Альтернативное окно 'О программе'."""
+        about_window = tk.Toplevel(self.root)
+        about_window.title("Alternative About")
+        about_window.geometry("400x300")
+        about_window.resizable(False, False)
+
+        try:
+            about_icon = PhotoImage(file="icons/flower.png")  # Альтернативная иконка
+        except Exception as e:
+            print(f"Error loading image: {e}")
+            about_icon = None
+
+        if about_icon:
+            image_label = tk.Label(about_window, image=about_icon)
+            image_label.image = about_icon
+            image_label.pack(pady=10)
+
+        title_label = tk.Label(
+            about_window,
+            text="SimpleView (Secret Mode)",
+        )
+        title_label.pack(pady=5)
+
+        description_label = tk.Label(
+            about_window,
+            text=(
+                "(c) Параметры 2025\n\n"
+                "This is a secret version of the About window.\n"
+                "You found it by pressing Ctrl+Alt+H! This is just a simple easter egg.\n\n"
+                "Check out the project here: https://github.com/WinXP655/SimpleEdit"
+            ),
+            wraplength=350,
+            justify="center"
+        )
+        description_label.pack(pady=10)
+
+        close_button = tk.Button(about_window, text="Close", command=about_window.destroy)
+        close_button.pack(pady=10)
 
     def show_about(self):
-        # Создаем новое окно
         about_window = tk.Toplevel(self.root)
-        about_window.title("SimpleEdit (Read-only)")
+        about_window.title("About")
     
         # Устанавливаем размеры окна
         about_window.geometry("350x250")
@@ -422,7 +522,7 @@ class NotepadApp:
 
         # Загружаем изображение
         try:
-            about_icon = PhotoImage(file="icons/se.png")
+            about_icon = PhotoImage(file="icons/sv.png")
         except Exception as e:
             print(f"Error loading image: {e}")
             about_icon = None  # Если изображение не загружено, можно оставить None
@@ -434,11 +534,11 @@ class NotepadApp:
             image_label.pack(pady=10)  # Располагаем картинку в окне
 
         # Заголовок с текстом
-        title_label = tk.Label(about_window, text="SimpleEdit", font=("Microsoft Sans Serif", 16, "bold"))
+        title_label = tk.Label(about_window, text="SimpleView", font=("Microsoft Sans Serif", 18))
         title_label.pack(pady=5)
 
         # Текстовое описание
-        description_label = tk.Label(about_window, text="(c) Параметры 2025\n\nA simple text editor made with Python. Inspired by a Windows Notepad from Windows 95. Read-only version.", wraplength=250, justify="center")
+        description_label = tk.Label(about_window, text="(c) Параметры 2025\n\nA simple text viewer made with Python. Read-only mode", wraplength=250, justify="center")
         description_label.pack(pady=10)
 
         # Кнопка для закрытия окна

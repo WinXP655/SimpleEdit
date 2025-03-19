@@ -1,0 +1,72 @@
+[ID]
+Lang=es-ES
+DisplayName=Español
+Author=Параметры
+Version=1.0
+
+[Application]
+Title=SimpleEdit
+NewDocument=Nuevo
+StatusBarTemplate={path}{modified} ({size} bytes)
+AboutDescription=(c) Параметры 2025\n\nUn editor de texto simple hecho con Python. Inspirado en el Bloc de notas de Windows 95
+Close=Cerrar
+
+[Menu.File]
+Label=Archivo
+New=Nuevo
+Open=Abrir...
+Save=Guardar
+SaveAs=Guardar como...
+Exit=Salir
+
+[Menu.Edit]
+Label=Editar
+Undo=Deshacer
+Redo=Rehacer
+Cut=Cortar
+Copy=Copiar
+Paste=Pegar
+Delete=Eliminar
+SelectAll=Seleccionar todo
+InsertTime=Insertar fecha y hora
+
+[Menu.View]
+Label=Ver
+ShowToolbar=Mostrar barra de herramientas
+ShowStatusbar=Mostrar barra de estado
+WordWrap=Ajuste de línea
+
+[Menu.Search]
+Label=Buscar
+Find=Buscar
+FindNext=Buscar siguiente
+Replace=Reemplazar
+
+[Menu.Help]
+Label=Ayuda
+Help=Ayuda
+About=Acerca de
+
+[Dialog]
+UnsavedTitle=Cambios no guardados
+UnsavedMessage=Hay cambios no guardados. ¿Desea guardarlos?
+ReplaceTitle=Reemplazar texto
+FindLabel=Buscar:
+ReplaceLabel=Reemplazar por:
+ReplaceButton=Reemplazar
+
+[Error]
+General=Error
+FileOpenError=No se pudo abrir el archivo:\n{error}
+FileSaveError=No se pudo guardar el archivo:\n{error}
+HelpNotFound=Archivo de ayuda no encontrado. Asegúrese de que el archivo 'help.rtf' exista.
+SearchEnd=Se alcanzó el final. ¿Continuar desde el principio?
+SearchRestart=Se alcanzó el final del documento. ¿Continuar desde el principio?
+
+[ContextMenu]
+Undo=Deshacer
+Cut=Cortar
+Copy=Copiar
+Paste=Pegar
+Delete=Eliminar
+SelectAll=Seleccionar todo

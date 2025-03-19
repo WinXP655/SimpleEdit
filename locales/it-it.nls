@@ -1,0 +1,72 @@
+[ID]
+Lang=it-IT
+DisplayName=Italiano
+Author=Параметры
+Version=1.0
+
+[Application]
+Title=SimpleEdit
+NewDocument=Nuovo
+StatusBarTemplate={path}{modified} ({size} byte)
+AboutDescription=(c) Параметры 2025\n\nUn semplice editor di testo creato con Python. Ispirato al Blocco note di Windows 95
+Close=Chiudi
+
+[Menu.File]
+Label=File
+New=Nuovo
+Open=Apri...
+Save=Salva
+SaveAs=Salva con nome...
+Exit=Esci
+
+[Menu.Edit]
+Label=Modifica
+Undo=Annulla
+Redo=Ripeti
+Cut=Taglia
+Copy=Copia
+Paste=Incolla
+Delete=Elimina
+SelectAll=Seleziona tutto
+InsertTime=Inserisci data e ora
+
+[Menu.View]
+Label=Visualizza
+ShowToolbar=Mostra barra degli strumenti
+ShowStatusbar=Mostra barra di stato
+WordWrap=A capo automatico
+
+[Menu.Search]
+Label=Cerca
+Find=Trova
+FindNext=Trova successivo
+Replace=Sostituisci
+
+[Menu.Help]
+Label=Aiuto
+Help=Aiuto
+About=Informazioni su
+
+[Dialog]
+UnsavedTitle=Modifiche non salvate
+UnsavedMessage=Ci sono modifiche non salvate. Vuoi salvarle?
+ReplaceTitle=Sostituisci testo
+FindLabel=Cerca:
+ReplaceLabel=Sostituisci con:
+ReplaceButton=Sostituisci
+
+[Error]
+General=Errore
+FileOpenError=Impossibile aprire il file:\n{error}
+FileSaveError=Impossibile salvare il file:\n{error}
+HelpNotFound=File di aiuto non trovato. Assicurati che il file 'help.rtf' esista.
+SearchEnd=Raggiunta la fine. Ricominciare dall'inizio?
+SearchRestart=Raggiunta la fine del documento. Ricominciare dall'inizio?
+
+[ContextMenu]
+Undo=Annulla
+Cut=Taglia
+Copy=Copia
+Paste=Incolla
+Delete=Elimina
+SelectAll=Seleziona tutto

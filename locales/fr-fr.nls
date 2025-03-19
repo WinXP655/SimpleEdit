@@ -1,0 +1,72 @@
+[ID]
+Lang=fr-FR
+DisplayName=Français
+Author=Параметры
+Version=1.0
+
+[Application]
+Title=SimpleEdit
+NewDocument=Nouveau
+StatusBarTemplate={path}{modified} ({size} octets)
+AboutDescription=(c) Параметры 2025\n\nUn simple éditeur de texte créé avec Python. Inspiré par le Bloc-notes de Windows 95
+Close=Fermer
+
+[Menu.File]
+Label=Fichier
+New=Nouveau
+Open=Ouvrir...
+Save=Enregistrer
+SaveAs=Enregistrer sous...
+Exit=Quitter
+
+[Menu.Edit]
+Label=Édition
+Undo=Annuler
+Redo=Rétablir
+Cut=Couper
+Copy=Copier
+Paste=Coller
+Delete=Supprimer
+SelectAll=Tout sélectionner
+InsertTime=Insérer la date et l'heure
+
+[Menu.View]
+Label=Affichage
+ShowToolbar=Afficher la barre d'outils
+ShowStatusbar=Afficher la barre d'état
+WordWrap=Retour à la ligne
+
+[Menu.Search]
+Label=Rechercher
+Find=Rechercher
+FindNext=Rechercher suivant
+Replace=Remplacer
+
+[Menu.Help]
+Label=Aide
+Help=Aide
+About=À propos
+
+[Dialog]
+UnsavedTitle=Modifications non enregistrées
+UnsavedMessage=Vous avez des modifications non enregistrées. Voulez-vous les enregistrer ?
+ReplaceTitle=Remplacer le texte
+FindLabel=Rechercher :
+ReplaceLabel=Remplacer par :
+ReplaceButton=Remplacer
+
+[Error]
+General=Erreur
+FileOpenError=Impossible d'ouvrir le fichier :\n{error}
+FileSaveError=Impossible d'enregistrer le fichier :\n{error}
+HelpNotFound=Fichier d'aide introuvable. Assurez-vous que le fichier 'help.rtf' existe.
+SearchEnd=Fin atteinte. Recommencer depuis le début ?
+SearchRestart=Fin du document atteinte. Recommencer depuis le début ?
+
+[ContextMenu]
+Undo=Annuler
+Cut=Couper
+Copy=Copier
+Paste=Coller
+Delete=Supprimer
+SelectAll=Tout sélectionner
